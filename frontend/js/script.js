@@ -306,3 +306,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchEnergy();
     renderAll();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const imageSection = document.querySelector('.image-section');
+    const totalImages = 24;
+
+    imageSection.innerHTML = '';
+
+    for (let i = 1; i <= totalImages; i++) {
+        const img = document.createElement('img');
+        img.src = `assets/images/weapons (${i}).png`;
+        img.alt = `Weapon ${i}`;
+        imageSection.appendChild(img);
+    }
+});
