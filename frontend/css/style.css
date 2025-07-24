@@ -3,7 +3,7 @@
     --border-color: #FFFFFF1A;
     --text-color: #FFFFFF;
     --font-family: 'Inter', sans-serif;
-    --base-font-size-desktop: 15px; /* Okunaklı başlangıç font boyutu */
+    --base-font-size-desktop: 15px; 
     --base-font-size-mobile: 12px;
 }
 
@@ -14,10 +14,10 @@ body {
     color: var(--text-color);
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* İçeriğin yukarıdan başlamasını sağlar */
+    align-items: flex-start; 
     min-height: 100vh;
-    padding: 20px; /* Kenarlardan boşluk bırakır */
-    box-sizing: border-box; /* Padding'in width/height'ı etkilememesi için */
+    padding: 20px; 
+    box-sizing: border-box; 
 }
 
 .main-container {
@@ -25,27 +25,27 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 2px;
     width: 100%;
-    max-width: 1200px; /* Geniş ekranlar için maksimum genişlik */
+    max-width: 1200px; 
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    overflow: hidden; /* Kenar yuvarlaklığı için */
+    overflow: hidden; 
 }
 
 .content-wrapper {
-    display: flex; /* Sol ve sağ kısımları yan yana dizer */
-    flex-wrap: wrap; /* Küçük ekranlarda alt alta geçmesini sağlar */
+    display: flex; 
+    flex-wrap: wrap; 
 }
 
 .text-section {
-    flex: 1; /* Esnek genişlik alır */
-    min-width: 300px; /* Çok daralmasını engeller */
+    flex: 1; 
+    min-width: 300px; 
     padding: 20px;
     box-sizing: border-box;
 }
 
 .text-section h2 {
     font-family: var(--font-family);
-    font-weight: 600; /* SemiBold */
-    font-size: var(--base-font-size-desktop); /* Başlıklar için daha büyük */
+    font-weight: 600; 
+    font-size: var(--base-font-size-desktop);
     line-height: 120%;
     color: var(--text-color);
     margin-top: 20px;
@@ -53,24 +53,24 @@ body {
 }
 
 .text-section ul {
-    list-style: disc; /* Nokta işareti */
-    margin-left: 20px; /* İçeriden boşluk */
+    list-style: disc; 
+    margin-left: 20px; 
     padding: 0;
     margin-bottom: 20px;
 }
 
 .text-section ul li {
     font-family: var(--font-family);
-    font-weight: 600; /* SemiBold */
-    font-size: var(--base-font-size-desktop); /* Açıklamalar için temel boyut */
+    font-weight: 600; 
+    font-size: var(--base-font-size-desktop); 
     line-height: 120%;
     letter-spacing: 0%;
     color: var(--text-color);
-    margin-bottom: 8px; /* Liste elemanları arası boşluk */
+    margin-bottom: 8px; 
 }
 
 .text-section .level-title {
-    font-weight: 600; /* Başlık kısmı kalın */
+    font-weight: 600; 
 }
 
 .text-section ul li br {
@@ -79,60 +79,55 @@ body {
 
 
 .image-section {
-    /* Eski flex: 2; yerine sabit bir genişlik verebiliriz veya flex ile oranını belirleyebiliriz */
-    /* Resimlerin sağ taraftaki metinlerin yüksekliğine göre hizalanması için */
-    flex: 2; /* Resim bölümü daha geniş olabilir, metin kısmına göre oranlanır */
-    min-width: 400px; /* Desktop'ta resimler için daha uygun bir minimum genişlik */
+    flex: 2;
+    min-width: 400px;
     padding: 20px;
     display: grid;
-    /* desktop'ta her satırda 3 resim olacak şekilde sabit bir düzen */
-    /* Her resmin genişliğini 1fr (eşit pay) olarak ayarlıyoruz */
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px; /* Resimler arası boşluklar (yatay ve dikey) */
+    row-gap: 25px;   
+    column-gap: 5px; 
     box-sizing: border-box;
-    align-content: start; /* İçeriğin dikeyde yukarıdan başlamasını sağlar */
+    align-content: start;
 }
 
 .image-section img {
-    width: 100%; /* Kendi grid hücresinin tamamını kaplar */
-    height: auto; /* Oranı bozulmaz */
-    /* Desktop için resim boyutlarını biraz büyüttüm (yaklaşık %50 artış) */
-    /* Bu değerler, 3 resmin sığdığı bir ızgarada iyi görünmeli */
-    max-width: 160px; /* Daha büyük max genişlik */
-    max-height: 130px; /* Daha büyük max yükseklik */
-    object-fit: contain; /* Resmin çerçeveye sığmasını sağlar */
-    display: block; /* Altındaki boşluğu giderir */
-    margin: 0 auto; /* Grid içinde ortalar */
-    opacity: 1; /* Figma'daki opasite */
+    width: 100%;
+    height: auto;
+    max-width: 160px;
+    max-height: 130px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    opacity: 1;
 }
 
-/* Responsive Düzenleme */
 @media (max-width: 768px) {
     .content-wrapper {
-        flex-direction: column; /* Mobil'de alt alta geçer */
+        flex-direction: column;
     }
 
     .text-section, .image-section {
-        min-width: unset; /* Minimum genişliği kaldır */
-        flex: unset; /* Esnekliği kaldır */
+        min-width: unset;
+        flex: unset;
     }
 
     .text-section h2,
     .text-section ul li {
-        font-size: var(--base-font-size-mobile); /* Mobil font boyutları */
+        font-size: var(--base-font-size-mobile);
     }
 
     .image-section {
-        /* Mobil'de her satırda 2 resim gösterebiliriz, daha küçük ekranlarda 1'e düşebilir */
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Daha küçük resim boyutu */
-        gap: 8px; /* Mobil'de daha az boşluk */
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        row-gap: 15px;
+        column-gap: 5px;
         padding-top: 0;
     }
 }
 
 @media (max-width: 480px) {
     .image-section {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Daha küçük mobil ekranlar için */
-        gap: 5px;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        row-gap: 10px; 
+        column-gap: 5px; 
     }
 }
