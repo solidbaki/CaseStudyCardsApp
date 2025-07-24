@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -7,51 +6,42 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- Bellek İçi Veri Depolama ---
-// Gerçek bir uygulamada bu veriler veritabanında tutulur.
-// Kullanıcı verilerini tutan bir obje
+
 const users = {
-    'user123': { // Örnek bir kullanıcı ID'si
+    'user123': { 
         id: 'user123',
         username: 'testuser',
-        energy: 100 // Başlangıç enerjisi
+        energy: 100
     }
 };
 
-// Kart verilerini tutan bir obje
-// Anahtar: cardId, Değer: Kart Bilgileri
+
 const cards = {
-    'cardABC': { // Örnek bir kart ID'si
+    'cardABC': { 
         id: 'cardABC',
-        userId: 'user123', // Bu kart hangi kullanıcıya ait
+        userId: 'user123', 
         level: 1,
         progress: 0
     },
-    'cardXYZ': { // Başka bir örnek kart
+    'cardXYZ': {
         id: 'cardXYZ',
         userId: 'user123',
         level: 5,
         progress: 70
     }
 };
-// --- Bellek İçi Veri Depolama Sonu ---
 
 
-// Middleware'ler
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Ana rota
 app.get('/', (req, res) => {
     res.send('No Surrender Backend API (In-Memory) Çalışıyor!');
 });
 
-
-// Enerji bilgilerini almak için GET endpoint'i
-// Normalde kullanıcı kimliği token'dan alınır, şimdilik sabit bir kullanıcı kullanıyoruz.
 app.get('/api/energy', (req, res) => {
-    const userId = 'user123'; // Sabit kullanıcı ID'si
+    const userId = 'user123';
     const user = users[userId];
 
     if (!user) {
@@ -61,32 +51,29 @@ app.get('/api/energy', (req, res) => {
     res.status(200).json({ energy: user.energy });
 });
 
-// Kartları ve enerjiyi güncelleyen batch geliştirme endpoint'i
 app.post('/api/batch-develop', (req, res) => {
     const { cardId, clicks } = req.body;
-    const userId = 'user123'; // Sabit kullanıcı ID'si (Normalde kimlik doğrulamadan alınır)
+    const userId = 'user123'; 
 
-    // İstek doğrulama
     if (!cardId || typeof clicks !== 'number' || clicks <= 0) {
         return res.status(400).json({ message: 'Geçersiz istek parametreleri.' });
     }
 
-    // Kullanıcı ve kartın varlığını kontrol et
     const user = users[userId];
     const card = cards[cardId];
 
     if (!user) {
         return res.status(404).json({ message: 'Kullanıcı bulunamadı.' });
     }
-    if (!card || card.userId !== userId) { // Kartın kullanıcıya ait olup olmadığını da kontrol et
+    if (!card || card.userId !== userId) {
         return res.status(404).json({ message: 'Kart bulunamadı veya yetkiniz yok.' });
     }
 
-    // Geliştirme mantığı
+    
     let currentEnergy = user.energy;
     let currentProgress = card.progress;
     let currentLevel = card.level;
-    const MAX_LEVEL = 10; // Örnek maksimum seviye
+    const MAX_LEVEL = 10; 
 
     for (let i = 0; i < clicks; i++) {
         if (currentProgress < 100) {
@@ -94,28 +81,23 @@ app.post('/api/batch-develop', (req, res) => {
                 currentProgress += 2;
                 currentEnergy -= 1;
             } else {
-                break; // Enerji bitti
+                break; 
             }
         } else {
-            // Progress 100 ise ve maksimum seviyeye ulaşılmadıysa seviye atla
+           
             if (currentLevel < MAX_LEVEL) {
-                currentProgress = 0; // Progress sıfırlanır
+                currentProgress = 0; 
                 currentLevel += 1;
             } else {
-                break; // Maksimum seviyeye ulaşıldı
+                break; 
             }
         }
 
-        // Progress 100'e ulaştığında seviye atlama kontrolü (bir tıklama içinde)
         if (currentProgress >= 100 && currentLevel < MAX_LEVEL) {
-            // Eğer tam 100 olduysa ve seviye atlanması gerekiyorsa
-            // Bir sonraki iterasyonda seviye atlanacaktır.
-            // Bu, ilerlemenin 100'ü geçmemesini sağlar.
-            currentProgress = Math.min(100, currentProgress); // Progress 100'ü geçmemeli
+            currentProgress = Math.min(100, currentProgress); 
         }
     }
 
-    // Bellekteki verileri güncelle
     user.energy = currentEnergy;
     card.progress = currentProgress;
     card.level = currentLevel;
@@ -126,11 +108,8 @@ app.post('/api/batch-develop', (req, res) => {
         level: card.level
     });
 });
-// --- API Uç Noktaları Sonu ---
 
 
-// Sunucuyu başlat
 app.listen(PORT, () => {
-    console.log(`No Surrender Backend (In-Memory) http://localhost:${PORT} adresinde çalışıyor`);
-    console.log('NOT: Bu uygulama verileri hafızada tutar ve yeniden başlatıldığında sıfırlanır.');
+    console.log(`Backend working on http://localhost:${PORT}`);
 });
